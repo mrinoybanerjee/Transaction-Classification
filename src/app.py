@@ -34,7 +34,7 @@ def process_file(uploaded_file):
     df = df[df['Amount'] >= 0]
 
     try:
-        with open('../models/label_encoder.pkl', 'rb') as le_file:
+        with open('./models/label_encoder.pkl', 'rb') as le_file:
             label_encoder = pickle.load(le_file)
     except FileNotFoundError:
         st.error("Label encoder file not found. Please ensure it is in the correct path.")

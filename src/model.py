@@ -106,7 +106,7 @@ def load_model(num_labels, device):
         BertForSequenceClassificationCustom: The loaded model.
     """
     model = BertForSequenceClassificationCustom(num_labels)
-    model_path = '../models/Fine Tuned BERT Model.pth'
+    model_path = './models/Fine Tuned BERT Model.pth'
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.to(device)
     model.eval()
