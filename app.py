@@ -1,10 +1,9 @@
 import streamlit as st
 import pandas as pd
 import torch
-from data_create import tokenize_data
-from model import load_model, predict
+from src.data_create import tokenize_data
+from src.model import load_model, predict
 from torch.utils.data import TensorDataset, DataLoader, SequentialSampler
-import os
 from io import BytesIO
 import pickle
 import logging
