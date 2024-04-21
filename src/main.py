@@ -1,42 +1,72 @@
+import pandas as pd
 import torch
-from data_create import load_and_preprocess_data, tokenize_data
-from model import load_model, predict
+from data_create import tokenize_data
 from torch.utils.data import TensorDataset, DataLoader, SequentialSampler
+import pickle
+from model import load_model, predict
+import pandas as pd
+import os
 
-def main():
+def process_file(uploaded_file):
     """
-    Main function to categorize transactions from a CSV file using a pre-trained model and save the results.
-    """
-    # User input for file paths
-    file_path = input("Please enter the path to your dataset CSV file: ")
-    model_path = input("Please enter the path to your pre-trained model: ")
+    Process the uploaded CSV file by predicting the transaction categories using the trained BERT model.
+    It also ensures that transactions with negative amounts are excluded.
 
+    Args:
+        uploaded_file: The uploaded CSV file handle.
+        model_path (str): The path to the pre-trained BERT model.
+
+    Returns:
+        pd.DataFrame: The DataFrame with predicted categories added.
+    """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # Load and preprocess the uploaded file
+    df = pd.read_csv(uploaded_file)
 
-    # Hardcoded list of categories the model is fine-tuned on
-    categories = ['Miscellaneous', 'Groceries', 'Technology', 'Food', 'Utilities', 'Travel', 'Entertainment', 'Transportation', 'Services', 
-                  'Clothing and Accessories', 'Health and Wellness', 'Personal Care', 'Membership fees', 'Rewards', 'Shipping', 'Income', 'Housing', 
-                  'Communications', 'Education', 'Insurance', 'Credit Card Fee', 'Investment', 'Advertising/Marketing']
+    # Convert Amount to numeric and exclude negative transactions
+    df['Amount'] = pd.to_numeric(df['Amount'], errors='coerce')
+    df = df[df['Amount'] >= 0]
 
-    # Load and preprocess data for inference
-    df = load_and_preprocess_data(file_path, for_training=False)
+    try:
+        with open('../models/label_encoder.pkl', 'rb') as le_file:
+            label_encoder = pickle.load(le_file)
+    except FileNotFoundError:
+        print("Label encoder file not found. Please ensure it is in the correct path.")
+        return pd.DataFrame()  # Return an empty DataFrame to prevent further execution
+
+    # Tokenize the data
     input_ids, attention_masks = tokenize_data(df)
-
-    # Prepare data for prediction
     prediction_data = TensorDataset(input_ids, attention_masks)
     prediction_sampler = SequentialSampler(prediction_data)
     prediction_dataloader = DataLoader(prediction_data, sampler=prediction_sampler, batch_size=32)
 
-    # Load the pre-trained model, ensuring it's loaded to the correct device
-    model = load_model(model_path, len(categories), device)
-
-    # Predict categories
+    # Load the pre-trained model
+    model = load_model(len(label_encoder.classes_), device)
+    # Predict transaction categories
     prediction_indices = predict(model, prediction_dataloader, device)
-    predicted_categories = [categories[pred] for pred in prediction_indices]
+    df['Predicted_Category'] = label_encoder.inverse_transform(prediction_indices)
+    df['Date'] = pd.to_datetime(df['Date'])  # Convert Date to datetime object
+    return df
 
-    # Append predicted categories to DataFrame and save to new CSV
-    df['Predicted_Category'] = predicted_categories
-    result_file_path = "data/categorized/categorized_transactions.csv"
+
+def main():
+    """
+    Main function to run the transaction categorization pipeline locally.
+    This function loads a CSV file, processes the data, loads a pre-trained model, predicts transaction categories,
+    and saves the results to a new CSV file.
+    """
+    # Bank-BERT
+    print("")
+    print("")
+    print("Welcome to Bank-BERT 💰!")
+    print("")
+    file_path = input("Please enter the path to your dataset CSV file: ")
+
+    # Process file and predict categories
+    df = process_file(file_path)
+
+    # Save the processed DataFrame to a new CSV
+    result_file_path = "../data/categorized/categorized_transactions.csv"
     df.to_csv(result_file_path, index=False)
     print(f"Processed transactions have been saved to {result_file_path}")
 
