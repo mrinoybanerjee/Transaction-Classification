@@ -3,3 +3,4 @@ models/Fine Tuned BERT Model.pth
 src/__pycache__
 .DS_Store
 .env
+.streamlit
