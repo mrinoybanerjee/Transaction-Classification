@@ -4,7 +4,7 @@
 Bank-BERT categorizes bank transactions using a fine-tuned BERT-base model from Hugging Face's transformers library. This application can be run as a script for batch processing or as a web app using Streamlit, which provides a user-friendly interface and visual analytics of categorized transactions.
 
 ## Features
-- **Transaction Categorization**: Classifies bank transactions into predefined categories using a BERT model.
+- **Transaction Categorization**: Classifies bank transactions into predefined categories using a fine-tuned BERT model.
 - **Data Visualization**: Displays visual analytics including pie charts of transaction categories, bar charts of spending by category, and line charts of spending trends over time.
 - **File Handling**: Processes uploaded CSV files through a web interface and gives the option to downloaded categorized csv file.
 - **Model Management**: Handles model training, saving, loading, and inference within the Python ecosystem.
@@ -33,7 +33,7 @@ python main.py
 Follow the on-screen prompts to provide the path to your dataset.
 
 ### Running the Web App
-To launch the Streamlit web application, navigate to the src directory and run:
+To launch the Streamlit web application, run:
 ```bash
 streamlit run app.py
 ```
@@ -41,8 +41,11 @@ Navigate to the provided URL in your web browser to interact with the applicatio
 
 ## Project Structure
 ```plaintext
-Bank-BERT/
+.
 ├── README.md
+├── __pycache__
+│   └── utils.cpython-311.pyc
+├── app.py
 ├── data
 │   ├── categorized
 │   │   ├── Amex Categorized Raw.csv
@@ -55,19 +58,23 @@ Bank-BERT/
 │   └── label_encoder.pkl
 ├── notebooks
 │   ├── Deep Learning Approach.ipynb
-│   ├── Evaluation.ipynb
-│   └── Non Deep Learning Approach.ipynb
+│   ├── Non Deep Learning Approach.ipynb
+│   └── Trying BERT models.ipynb
 ├── requirements.txt
-└── src
-    ├── __pycache__
-    │   ├── data_create.cpython-311.pyc
-    │   └── model.cpython-311.pyc
-    ├── app.py
-    ├── data_create.py
-    ├── evaluate.py
-    ├── main.py
-    └── model.py
+├── src
+│   ├── __pycache__
+│   │   ├── data_create.cpython-311.pyc
+│   │   ├── data_create.cpython-39.pyc
+│   │   ├── model.cpython-311.pyc
+│   │   ├── preprocess.cpython-311.pyc
+│   │   └── utils.cpython-311.pyc
+│   ├── data_create.py
+│   ├── main.py
+│   ├── model.py
+│   └── preprocess.py
+└── utils.py
 
+9 directories, 23 files
 ```
 
 ## Documentation
@@ -75,6 +82,7 @@ Bank-BERT/
 ### Modules
 - **data_create.py**: Contains functions for loading, preprocessing, and tokenizing data.
 - **model.py**: Defines the BERT-based neural network architecture, training, and prediction logic.
+- **preprocess.py**: 
 - **main.py**: Provides a CLI-based approach to process a CSV file and categorize transactions.
 - **app.py**: Streamlit application that allows users to upload a CSV file, categorize transactions, and view visual analytics.
 
