@@ -31,13 +31,26 @@ def process_description(desc: str) -> str:
     Returns:
         str: The predicted category for the transaction.
     '''
-    response = requests.post(
-        HF_API_URL,
-        headers=HF_HEADERS,
-        json={"inputs": desc}
-    )
-    response = response.json()
-    return response[0]["label"]
+    try:
+        response = requests.post(
+            HF_API_URL,
+            headers=HF_HEADERS,
+            json={"inputs": desc}
+        )
+        response.raise_for_status()  # This will raise an exception for HTTP errors
+        data = response.json()
+        # Check if the expected key 'label' is in the response and the response is properly structured
+        if data and isinstance(data, list) and "label" in data[0]:
+            return data[0]["label"]
+        else:
+            st.error("Unexpected response structure from API")
+            return None  # You may choose to handle this case differently depending on your application's needs
+    except requests.RequestException as e:
+        st.error(f"Request failed: {e}")
+        return None
+    except ValueError as e:
+        st.error(f"JSON decoding failed: {e}")
+        return None
 
 def process_labels(df: pd.DataFrame) -> pd.DataFrame:
     '''
@@ -86,7 +99,10 @@ def preprocess_file(uploaded_file):
     df = df[df['Amount'] >= 0]
     # Convert description to lower case to prepare for bert base uncased
     df['Description'] = df['Description'].str.lower()
-    df["encoded_label"] = df["Description"].apply(process_description)
+    df["encoded_label"] = df["Description"].apply(lambda desc: process_description(desc) if pd.notna(desc) else None)
+
+    # Handle potential None values before processing labels
+    df = df.dropna(subset=["encoded_label"])
     df = process_labels(df)
     df['Date'] = pd.to_datetime(df['Date'])  # Convert Date to datetime object
     print(df.head())
