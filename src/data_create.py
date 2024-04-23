@@ -14,6 +14,12 @@ def load_data(file_path):
     df = pd.read_csv(file_path)
     df = df[df['Description'] != 'Description']  # Filter out invalid rows
     df['Description'] = df['Description'].str.lower()  # Convert to lowercase
+    # removing negative transactions
+    df['Amount'] = pd.to_numeric(df['Amount'], errors='coerce')
+    df = df[df['Amount'] >= 0]
+    # removing categories with less than 10 transactions
+    category_counts = df['Category'].value_counts()
+    df = df[df['Category'].isin(category_counts[category_counts >= 10].index)]
     return df
 
 def encode_categories(df):

@@ -1,5 +1,7 @@
 # Bank-BERT 💰
 
+## APP is live here: https://bankbert.streamlit.app/
+
 ## Overview
 Bank-BERT leverages a fine-tuned BERT model from Hugging Face's transformers library to efficiently categorize bank transactions. This versatile application supports both script-based batch processing and an interactive web interface via Streamlit, which offers user-friendly visual analytics on transaction categories.
 
@@ -46,23 +48,21 @@ Access the app through the URL provided in your terminal to interact with the fe
 .
 ├── README.md
 ├── app.py
-├── data
-│   └── raw
-│       └── transactions.csv
 ├── models
-│   ├── bert_model.pth
 │   └── label_encoder.pkl
 ├── notebooks
-│   ├── Data Exploration.ipynb
-│   └── Model Training.ipynb
+│   ├── Deep Learning Approach.ipynb
+│   ├── Non Deep Learning Approach.ipynb
+│   └── Trying BERT models.ipynb
 ├── requirements.txt
 ├── src
-│   ├── __init__.py
+│   ├── data_create.py
 │   ├── main.py
 │   ├── model.py
-│   ├── data_create.py
 │   └── preprocess.py
 └── utils.py
+
+9 directories, 24 files
 ```
 
 ## Documentation
@@ -81,6 +81,13 @@ Access the app through the URL provided in your terminal to interact with the fe
 - `setup_model(num_labels)`: Initializes the BERT model for sequence classification.
 - `train_model(model, train_dataset, val_dataset)`: Trains the BERT model and evaluates it using the training and validation datasets.
 - `save_and_push(model, tokenizer, model_name, api_token)`: Saves the model and tokenizer and pushes them to the Hugging Face Hub.
+
+### Results
+F-1 score is the metric of choice here due to class imbalance.
+Here are the results for the three approaches:
+- **TF-IDF + Random Forest:** 0.7557
+- **BERT BASE Naive:** 0.0069
+- **BERT BASE fine-tuned:** 0.7979
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit pull requests with your enhancements. For major changes, open an issue first to discuss what you would like to change.
