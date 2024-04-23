@@ -1,22 +1,22 @@
 # Bank-BERT 💰
 
 ## Overview
-Bank-BERT categorizes bank transactions using a fine-tuned BERT-base model from Hugging Face's transformers library. This application can be run as a script for batch processing or as a web app using Streamlit, which provides a user-friendly interface and visual analytics of categorized transactions.
+Bank-BERT leverages a fine-tuned BERT model from Hugging Face's transformers library to efficiently categorize bank transactions. This versatile application supports both script-based batch processing and an interactive web interface via Streamlit, which offers user-friendly visual analytics on transaction categories.
 
 ## Features
-- **Transaction Categorization**: Classifies bank transactions into predefined categories using a fine-tuned BERT model.
-- **Data Visualization**: Displays visual analytics including pie charts of transaction categories, bar charts of spending by category, and line charts of spending trends over time.
-- **File Handling**: Processes uploaded CSV files through a web interface and gives the option to downloaded categorized csv file.
-- **Model Management**: Handles model training, saving, loading, and inference within the Python ecosystem.
+- **Transaction Categorization**: Utilizes a fine-tuned BERT model to accurately classify bank transactions into predefined categories.
+- **Data Visualization**: Provides dynamic visual analytics, including pie charts of transaction categories, bar charts detailing spending by category, and line charts to visualize spending trends.
+- **File Handling**: Facilitates the processing of uploaded CSV files through a web interface, with options for downloading categorized data.
+- **Model Management**: Efficiently manages the lifecycle of the model including training, saving, loading, and inference.
 
 ## Installation
 
 ### Prerequisites
-- Python 3.8 or later
-- pip for managing Python packages
+- Python 3.8 or higher
+- pip for Python package management
 
 ### Dependencies
-Install the required Python packages using pip:
+Install the necessary Python packages with pip:
 
 ```bash
 pip install -r requirements.txt
@@ -25,83 +25,69 @@ pip install -r requirements.txt
 ## Usage
 
 ### Running the Script
-To run the categorization pipeline via the command line, navigate to the src directory and execute:
+For batch processing via the command line, navigate to the source directory and run:
 
 ```bash
 python main.py
 ```
-Follow the on-screen prompts to provide the path to your dataset.
+Follow the prompts to specify the path to your dataset.
 
 ### Running the Web App
-To launch the Streamlit web application, run:
+To start the Streamlit web application, execute:
+
 ```bash
 streamlit run app.py
 ```
-Navigate to the provided URL in your web browser to interact with the application.
+Access the app through the URL provided in your terminal to interact with the features.
 
 ## Project Structure
+
 ```plaintext
 .
 ├── README.md
-├── __pycache__
-│   └── utils.cpython-311.pyc
 ├── app.py
 ├── data
-│   ├── categorized
-│   │   ├── Amex Categorized Raw.csv
-│   │   ├── Synthetic transactions data.csv
-│   │   └── categorized_transactions.csv
 │   └── raw
-│       └── all_amex.csv
+│       └── transactions.csv
 ├── models
-│   ├── Fine Tuned BERT Model.pth
+│   ├── bert_model.pth
 │   └── label_encoder.pkl
 ├── notebooks
-│   ├── Deep Learning Approach.ipynb
-│   ├── Non Deep Learning Approach.ipynb
-│   └── Trying BERT models.ipynb
+│   ├── Data Exploration.ipynb
+│   └── Model Training.ipynb
 ├── requirements.txt
 ├── src
-│   ├── __pycache__
-│   │   ├── data_create.cpython-311.pyc
-│   │   ├── data_create.cpython-39.pyc
-│   │   ├── model.cpython-311.pyc
-│   │   ├── preprocess.cpython-311.pyc
-│   │   └── utils.cpython-311.pyc
-│   ├── data_create.py
+│   ├── __init__.py
 │   ├── main.py
 │   ├── model.py
+│   ├── data_create.py
 │   └── preprocess.py
 └── utils.py
-
-9 directories, 23 files
 ```
 
 ## Documentation
 
 ### Modules
-- **data_create.py**: Contains functions for loading, preprocessing, and tokenizing data.
-- **model.py**: Defines the BERT-based neural network architecture, training, and prediction logic.
-- **preprocess.py**: 
-- **main.py**: Provides a CLI-based approach to process a CSV file and categorize transactions.
-- **app.py**: Streamlit application that allows users to upload a CSV file, categorize transactions, and view visual analytics.
+- **data_create.py**: Functions for loading and preprocessing data, including tokenizing descriptions and encoding categories. Prepares the data for the training pipeline.
+- **preprocess.py**: Handles processing of transaction descriptions using the Hugging Face API and manages label encoding.
+- **model.py**: Manages BERT model configuration, training, saving, and uploading to Hugging Face Hub.
+- **main.py**: CLI interface for processing transactions through the model.
+- **app.py**: Streamlit application for interactive file upload, transaction categorization, and viewing visual analytics.
 
 ### Functions
-- `load_and_preprocess_for_training(file_path)`: Loads and preprocesses the CSV data for the training pipeline.
-- `tokenize_data(df)`: Tokenizes text data in the DataFrame.
-- `create_data_loaders(input_ids, attention_masks, labels, batch_size)`: Creates DataLoader instances for model training.
-- `BertForSequenceClassificationCustom`: Custom BERT model for sequence classification tasks.
-- `train(model, train_dataloader, validation_dataloader, device, epochs, learning_rate, eps)`: Trains the BERT model.
-- `predict(model, dataloader, device)`: Predicts categories using the trained model.
-- `process_file(uploaded_file)`: Processes the uploaded CSV file and categorizes transactions to run inference.
+- `load_data(file_path)`: Loads and preprocesses the transaction data from a CSV file.
+- `encode_categories(df)`: Encodes transaction categories for modeling.
+- `tokenize_data(df)`: Tokenizes transaction descriptions for BERT processing.
+- `setup_model(num_labels)`: Initializes the BERT model for sequence classification.
+- `train_model(model, train_dataset, val_dataset)`: Trains the BERT model and evaluates it using the training and validation datasets.
+- `save_and_push(model, tokenizer, model_name, api_token)`: Saves the model and tokenizer and pushes them to the Hugging Face Hub.
 
 ## Contributing
-Contributions are welcome! Please fork the repository and submit pull requests with your enhancements. For major changes, please open an issue first to discuss what you would like to change.
-
-Ensure to update tests as appropriate.
+Contributions are welcome! Please fork the repository and submit pull requests with your enhancements. For major changes, open an issue first to discuss what you would like to change.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Contact
 For support, contact [mrinoybanerjee@gmail.com](mailto:mrinoybanerjee@gmail.com).
+```
