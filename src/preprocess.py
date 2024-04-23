@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 HF_TOKEN = os.getenv("HF_TOKEN")
-HF_API_URL = os.getenv("HF_API_URL")
+HF_API_URL = "https://h27fegzq22vqhmsi.us-east-1.aws.endpoints.huggingface.cloud"
 HF_HEADERS = {
 	"Accept" : "application/json",
 	"Authorization": f"Bearer {HF_TOKEN}",
