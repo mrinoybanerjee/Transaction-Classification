@@ -24,13 +24,13 @@ def train_model(model, train_dataset, val_dataset):
     """
     try:
         training_args = TrainingArguments(
-            output_dir='./results',
-            num_train_epochs=3,
+            output_dir='../data/results',
+            num_train_epochs=15,
             per_device_train_batch_size=16,
             per_device_eval_batch_size=64,
             warmup_steps=500,
             weight_decay=0.01,
-            logging_dir='./logs',
+            logging_dir='../data/results/logs',
         )
 
         trainer = Trainer(

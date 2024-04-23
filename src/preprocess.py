@@ -94,7 +94,6 @@ def preprocess_file(uploaded_file):
     # Convert Amount to numeric and exclude negative transactions
     df['Amount'] = pd.to_numeric(df['Amount'], errors='coerce')
     df = df[df['Amount'] >= 0]
-    # Convert description to lower case to prepare for bert base uncased
     df['Description'] = df['Description'].str.lower()
     df["encoded_label"] = df["Description"].apply(lambda desc: process_description(desc) if pd.notna(desc) else None)
 
