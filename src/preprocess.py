@@ -4,17 +4,14 @@ import requests
 import os
 import pandas as pd
 import streamlit as st
-from dotenv import load_dotenv
 
 # Description: Utility functions for processing transaction data.
 #  - process_description: Process the transaction description using the Hugging Face API to predict the category.
 #  - process_labels: Apply label encoder to decode the predicted labels.
 #  - process_file: Process the uploaded CSV file by predicting the transaction categories using the Hugging Face inference API.
 
-load_dotenv()
-
-HF_TOKEN = os.getenv("HF_TOKEN")
-HF_API_URL = "https://h27fegzq22vqhmsi.us-east-1.aws.endpoints.huggingface.cloud"
+HF_TOKEN = st.secrets["HF_TOKEN"]
+HF_API_URL = st.secrets["HF_API_URL"]
 HF_HEADERS = {
 	"Accept" : "application/json",
 	"Authorization": f"Bearer {HF_TOKEN}",
