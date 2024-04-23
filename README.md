@@ -90,4 +90,3 @@ Contributions are welcome! Please fork the repository and submit pull requests w
 
 ## Contact
 For support, contact [mrinoybanerjee@gmail.com](mailto:mrinoybanerjee@gmail.com).
-```
