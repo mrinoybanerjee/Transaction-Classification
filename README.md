@@ -4,6 +4,8 @@
 
 ### To run the app, find the test file in the data folder: data/test_file.csv
 
+## Video demo of the app: https://www.youtube.com/watch?v=FcVxUmBPMgI
+
 ## Overview
 Bank-BERT leverages a fine-tuned BERT model from Hugging Face's transformers library to efficiently categorize bank transactions. This versatile application supports both script-based batch processing and an interactive web interface via Streamlit, which offers user-friendly visual analytics on transaction categories.
 
