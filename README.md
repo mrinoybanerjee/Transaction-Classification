@@ -2,6 +2,8 @@
 
 ## APP is live here: https://bankbert.streamlit.app/
 
+### To run the app, find the test file in the data folder: data/test_file.csv
+
 ## Overview
 Bank-BERT leverages a fine-tuned BERT model from Hugging Face's transformers library to efficiently categorize bank transactions. This versatile application supports both script-based batch processing and an interactive web interface via Streamlit, which offers user-friendly visual analytics on transaction categories.
 
@@ -88,6 +90,8 @@ Here are the results for the three approaches:
 - **TF-IDF + Random Forest:** 0.7557
 - **BERT BASE Naive:** 0.0069
 - **BERT BASE fine-tuned:** 0.7979
+
+![alt text](./assets/evaluation_results.png)
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit pull requests with your enhancements. For major changes, open an issue first to discuss what you would like to change.
